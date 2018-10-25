@@ -1,0 +1,79 @@
+spring:
+  application:
+    name: manage-eureka-sznx-provider-system
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://139.199.203.71:1433;Databasename=SP_MCEM
+    username: sa
+    password: Sznx(*)2017
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+
+    # 初始化大小，最小，最大
+    druid: 
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    # schema: # 扫描需要生成表的sql文件
+      # - classpath:sql/department.sql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+  redis: # redis的配置
+    host: 192.10.5.127
+    port: 6379
+    password: Aa123456
+    jedis:
+      pool:
+        max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 10 # 连接池中的最大空闲连接
+        max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        min-idle: 5 # 连接池中的最小空闲连接
+        timeout: 3000 # 连接超时时间（毫秒）
+  rabbitmq:
+    host: 118.24.22.139
+    username: sznxMq
+    password: Aa123456
+    port: 5672
+  
+server:
+  port: 8742
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+    #ip-address: 111.230.17.216 #指定本服务ip（如果服务不在一个内网，则需要指定，配合  prefer-ip-address: true）
+    #lease-expiration-duration-in-seconds: 20  # 发呆时间，即服务续约到期时间（缺省为90s）
+    #lease-renewal-interval-in-seconds: 10  # 心跳时间，即服务续约间隔时间（缺省为30s）
+  client:
+    service-url:
+      defaultZone: http://eureka-server-01:8701/eureka/
+       #defaultZone: http://api.sheng0527.com:8701/eureka/,http://ljw99.cn:8702/eureka/,http://ljw99.cn:8703/eureka/
+  
+# MyBatis的配置      
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml      
+
+  
