@@ -1,0 +1,50 @@
+spring:      
+  rabbitmq:
+    host: 118.24.22.139
+    username: sznxMq
+    password: Aa123456
+    port: 5672
+
+ribbon:  
+  ReadTimeout: 60000  
+  ConnectTimeout: 60000
+
+zuul:
+  routes:
+    api-a:
+      path: /sznx-api/**
+      service-id: manage-eureka-sznx-consumer
+      
+feign:
+  hystrix:
+    enabled: true  # feign全局开启hystrix支持,默认false
+
+# hystrix配置
+#最大并发请求数，默认10
+#hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests 
+#命令执行超时时间，默认1000ms
+#hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds 
+#如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用。默认10            
+#hystrix.command.default.fallback.isolation.semaphore.maxConcurrentRequests
+
+#ThreadPool 相关参数
+#hystrix.threadpool.default.coreSize 并发执行的最大线程数，默认10
+#hystrix.threadpool.default.maxQueueSize   
+ 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
+          semaphore:
+            maxConcurrentrentRequests: 100  #线程数 
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 100
+  threadpool:
+    default:
+      coreSize: 20 
+      maxQueueSize: -1
