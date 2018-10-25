@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: manage-eureka-sznx-provider-system
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://139.199.203.71:1433;Databasename=SP_MCEM
@@ -56,21 +54,7 @@ spring:
     password: Aa123456
     port: 5672
   
-server:
-  port: 8742
-eureka:
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-    hostname: ${spring.cloud.client.ip-address}
-    #ip-address: 111.230.17.216 #指定本服务ip（如果服务不在一个内网，则需要指定，配合  prefer-ip-address: true）
-    #lease-expiration-duration-in-seconds: 20  # 发呆时间，即服务续约到期时间（缺省为90s）
-    #lease-renewal-interval-in-seconds: 10  # 心跳时间，即服务续约间隔时间（缺省为30s）
-  client:
-    service-url:
-      defaultZone: http://eureka-server-01:8701/eureka/
-       #defaultZone: http://api.sheng0527.com:8701/eureka/,http://ljw99.cn:8702/eureka/,http://ljw99.cn:8703/eureka/
-  
+
 # MyBatis的配置      
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
